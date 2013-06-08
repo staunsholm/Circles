@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Circles</title>
+
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+        }
+
+        div {
+            background: rgba(255,0,0,.5);
+            position: absolute;
+            border-radius: 255px;
+        }
+    </style>
+
+</head>
+<body>
+
+<script>
+    var div;
+    var body = document.querySelector('body');
+
+    var circles = [];
+
+    var cnt = 16;
+    var w = window.innerWidth - 60;
+    var h = window.innerHeight - 60;
+
+    for (var i = 0; i < cnt; i++) {
+        div = document.createElement('div');
+        div.style.left = Math.random() * w + "px";
+        div.style.top = Math.random() * h + "px";
+        s = Math.random() * 10 + 10 | 0;
+        div.style.width = div.style.height = s + "px";
+        body.appendChild(div);
+
+        circles.push(div);
+    }
+
+    requestAnimationFrame(function update() {
+        for (var i = 0; i < cnt; i++) {
+            div = circles[i];
+            div.style.left = Math.random() * w + "px";
+            div.style.top = Math.random() * h + "px";
+            s = Math.random() * 500 + 10 | 0;
+            div.style.width = div.style.height = s + "px";
+        }
+
+        requestAnimationFrame(update);
+    });
+
+</script>
+
+</body>
+</html>
