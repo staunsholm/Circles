@@ -1,6 +1,10 @@
 ///<reference path='Person.ts'/>
 ///<reference path='Planet.ts'/>
 ///<reference path='State.ts'/>
+///<reference path='Thing.ts'/>
+///<reference path='Person.ts'/>
+///<reference path='Planet.ts'/>
+///<reference path='../signals.min.js'/>
 
 class Main {
     w:number;
@@ -18,9 +22,10 @@ class Main {
         this.w = window.innerWidth;
         this.h = window.innerHeight;
 
+        var planet = new Planet(100, 800, 200, 1);
         var planet = new Planet(200, 400, 400, 1);
         var planet = new Planet(150, 900, 500, 1);
-        new Person(25, 300, 300, planet);
+        new Person(25, -1.7, planet);
 
         State.init();
     }
@@ -46,6 +51,8 @@ class Main {
 }
 
 (function () {
+    var Signal = signals.Signal;
+
     var c = <HTMLCanvasElement>document.getElementById("canvas");
     c.width = window["innerWidth"];
     c.height = window["innerHeight"];

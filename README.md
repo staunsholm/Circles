@@ -1,4 +1,4 @@
 Circles
 =======
 
-Some random game prototyping idea.
+Some random game prototyping idea. In typescript....

@@ -24,7 +24,7 @@ class Thing implements IThing {
 
     static things:Thing[] = [];
 
-    constructor(size:number, x:number, y:number, color?:string) {
+    constructor(size:number, x?:number, y?:number, color?:string) {
         this.size = size;
         this.x = x;
         this.y = y;
