@@ -14,7 +14,7 @@ class Person extends Thing {
     planet:Planet;
 
     position:number;
-    maxJumpHeight:number = 150;
+    maxJumpHeight:number = 75;
 
     jumpInfo:JumpInfo = {
         startTime: 0,
@@ -29,12 +29,11 @@ class Person extends Thing {
 
     static persons:Person[] = [];
 
-    constructor(size:number, position:number, planet:Planet) {
-        super(size);
+    constructor(size:number, position:number, planet:Planet, texture:HTMLImageElement) {
+        super(size, 0, 0, texture, "#ff0000");
 
         var person:Person = this;
 
-        person.color = "#ff0000";
         person.planet = planet;
         person.position = position;
 
@@ -46,6 +45,7 @@ class Person extends Thing {
 
             jumpInfo.startTime = Date.now();
             jumpInfo.startPlanet = person.planet;
+            jumpInfo.jumpHeight = person.maxJumpHeight;
 
             var closestPlanet:Planet = person.planet;
             var dist:number;
@@ -56,12 +56,12 @@ class Person extends Thing {
                 if (planet === person.planet) continue;
 
                 var dist = Math.sqrt((planet.x - person.x) * (planet.x - person.x) +
-                    (planet.y - person.y) * (planet.y - person.y));
+                    (planet.y - person.y) * (planet.y - person.y)) - planet.size;
                 if (dist < closestDist &&
-                    dist < person.maxJumpHeight / 2 + planet.size + person.planet.size) {
+                    dist < person.maxJumpHeight / 2 + person.planet.size) {
                     closestPlanet = planet;
                     closestDist = dist;
-                    jumpInfo.jumpHeight = (dist - planet.size - person.size) / 2;
+                    jumpInfo.jumpHeight = (dist - person.size) / 2;
                 }
             }
 
@@ -95,12 +95,12 @@ class Person extends Thing {
 
         if (this.jumpInfo.startTime !== 0) {
             var deltaJump = Date.now() - this.jumpInfo.startTime;
-            if (deltaJump < 400) {
-                jumpHeight = Math.sin(deltaJump / 800 * Math.PI) * this.jumpInfo.jumpHeight;
-            }
-            else if (deltaJump < 800) {
-                jumpHeight = Math.sin(deltaJump / 800 * Math.PI) * this.jumpInfo.jumpHeight;
+            var jumpTime = this.jumpInfo.jumpHeight * 10;
+            jumpHeight = Math.sin(deltaJump / jumpTime * Math.PI) * this.jumpInfo.jumpHeight;
 
+            if (deltaJump < jumpTime/2) {
+            }
+            else if (deltaJump < jumpTime) {
                 // handle jump to other planet
                 if (this.planet !== this.jumpInfo.endPlanet) {
                     this.planet = this.jumpInfo.endPlanet;
@@ -114,6 +114,7 @@ class Person extends Thing {
             }
             else {
                 this.jumpInfo.startTime = 0;
+                this.jumpInfo.jumpHeight = this.maxJumpHeight;
             }
         }
 
