@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+
     <title>Circles</title>
+
+    <meta content='True' name='HandheldFriendly' />
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
         body {
@@ -10,11 +18,30 @@
             color: #fff;
             overflow: hidden;
         }
+
+        #console {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 25%;
+            height: 10%;
+            background-color: rgba(0,0,0,.5);
+            padding: 5px;
+            font-family: consolas;
+        }
+
+        #reloadthing {
+            position: absolute;
+            top: 50%;
+            left: 0;
+        }
     </style>
 </head>
 <body>
 
 <canvas id="canvas"></canvas>
+
+<div id="console"></div>
 
 <script src="signals.min.js"></script>
 <script src="function.bind.js"></script>

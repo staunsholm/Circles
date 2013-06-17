@@ -3,6 +3,7 @@
 class Planet extends Thing {
     origx:number;
     origy:number;
+    origsize:number;
 
     static planets:Planet[] = [];
 
@@ -11,14 +12,17 @@ class Planet extends Thing {
 
         this.origx = x;
         this.origy = y;
+        this.origsize = size;
 
         Planet.planets.push(this);
     }
 
     update(ctx, dt) {
-        this.x = this.origx + Math.cos(Date.now() / 2000000 * this.origx) * 20;
-        this.y = this.origy + Math.sin(Date.now() / 1000000 * this.origx) * 20;
-        this.size = Math.sin(Date.now() / 500000 * this.origy) * 100 + 200;
+        var time = Date.now() - State.pauseTime;
+
+        this.x = this.origx + Math.cos(time / 2000000 * this.origx) * 20;
+        this.y = this.origy + Math.sin(time / 1000000 * this.origx) * 20;
+        this.size = Math.sin(time / 500000 * this.origy) * 10 + this.origsize;
 
         super.update(ctx, dt);
     }

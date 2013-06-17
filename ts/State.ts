@@ -3,6 +3,12 @@ class State {
     static public moveForward = new signals.Signal();
     static public moveBackward = new signals.Signal();
     static public stop = new signals.Signal();
+    static public pause = new signals.Signal();
+    static public play = new signals.Signal();
+
+    static public isPaused:bool = false;
+    static public pauseTime:number = 0;
+    static private tempPauseTime:number = 0;
 
     static public init() {
         addEventListener('keydown', function (e:KeyboardEvent) {
@@ -28,8 +34,32 @@ class State {
             }
         });
 
-        window.onblur = function () {
+        addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) {
+                State.jump.dispatch();
+            }
+            State.moveForward.dispatch();
+        });
+
+        addEventListener('touchend', function (e) {
+            if (e.touches.length === 0) {
+                State.stop.dispatch();
+            }
+        });
+
+        addEventListener('blur', function () {
             stop.dispatch();
-        };
+            pause.dispatch();
+            State.isPaused = true;
+            State.tempPauseTime = Date.now();
+        });
+
+        addEventListener('focus', function () {
+            play.dispatch();
+            State.isPaused = false;
+            if (State.tempPauseTime > 0) {
+                State.pauseTime += Date.now() - State.tempPauseTime;
+            }
+        });
     }
 }
