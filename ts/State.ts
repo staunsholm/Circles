@@ -8,9 +8,10 @@ class State {
 
     static public isPaused:bool = false;
     static public pauseTime:number = 0;
-    static private tempPauseTime:number = 0;
 
     static public init() {
+        var tempPauseTime:number = 0;
+
         addEventListener('keydown', function (e:KeyboardEvent) {
             if (e.keyCode === 32) {
                 e.preventDefault();
@@ -51,14 +52,14 @@ class State {
             stop.dispatch();
             pause.dispatch();
             State.isPaused = true;
-            State.tempPauseTime = Date.now();
+            tempPauseTime = Date.now();
         });
 
         addEventListener('focus', function () {
             play.dispatch();
             State.isPaused = false;
-            if (State.tempPauseTime > 0) {
-                State.pauseTime += Date.now() - State.tempPauseTime;
+            if (tempPauseTime > 0) {
+                State.pauseTime += Date.now() - tempPauseTime;
             }
         });
     }
