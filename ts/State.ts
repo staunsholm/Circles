@@ -12,6 +12,7 @@ class State {
     static public init() {
         var tempPauseTime:number = 0;
 
+        // control via keyboard
         addEventListener('keydown', function (e:KeyboardEvent) {
             if (e.keyCode === 32) {
                 e.preventDefault();
@@ -35,19 +36,39 @@ class State {
             }
         });
 
-        addEventListener('touchstart', function (e) {
-            if (e.touches.length > 1) {
-                State.jump.dispatch();
-            }
-            State.moveForward.dispatch();
-        });
+        // touch handling in IE
+        if (window["navigator"].msPointerEnabled) {
+            addEventListener("MSPointerDown", function (e:MSPointerEvent) {
+                if (!e.isPrimary) {
+                    State.jump.dispatch();
+                }
+                State.moveForward.dispatch();
+            });
 
-        addEventListener('touchend', function (e) {
-            if (e.touches.length === 0) {
-                State.stop.dispatch();
-            }
-        });
+            addEventListener("MSPointerUp", function (e:MSPointerEvent) {
+                if (e.isPrimary) {
+                    State.stop.dispatch();
+                }
+            });
+        }
 
+        // touch handling in iOS
+        else {
+            addEventListener("touchstart", function (e) {
+                if (e.touches.length > 1) {
+                    State.jump.dispatch();
+                }
+                State.moveForward.dispatch();
+            });
+
+            addEventListener("touchend", function (e) {
+                if (e.touches.length === 0) {
+                    State.stop.dispatch();
+                }
+            });
+        }
+
+        // pause game when window looses focus
         addEventListener('blur', function () {
             stop.dispatch();
             pause.dispatch();
