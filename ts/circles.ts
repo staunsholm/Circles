@@ -17,8 +17,13 @@ class Main {
         this.ctx = ctx;
         this.window = window;
 
-        this.w = window.innerWidth;
-        this.h = window.innerHeight;
+        var retinaSize = window["devicePixelRatio"] || 1;
+        this.w = window.innerWidth * retinaSize;
+        this.h = window.innerHeight * retinaSize;
+
+        ctx.fillStyle = "#000";
+        ctx.rect(0, 0, this.w, this.h);
+        ctx.fill();
 
         State.init();
     }
@@ -35,7 +40,7 @@ class Main {
 
             var ctx = this.ctx;
 
-    //        ctx.clearRect(0, 0, this.w, this.h);
+            //        ctx.clearRect(0, 0, this.w, this.h);
             var x = this.w / 2;
             var y = this.h / 2;
             ctx.translate(x, y);
@@ -51,12 +56,21 @@ class Main {
     }
 
     load() {
+        var imageUrls = [
+            '2_bubble2.png',
+            'bubble.png',
+            'bubble-psd94380.png',
+            'Bubble-3-psd90405.png',
+            'stock_real_bubble_png_by_e_dina-d4uifi8.png',
+            'Love_is_in_the_air.jpg'
+        ];
+
         var cntLoaded = 0;
         var main = this;
 
-        function imageLoaded(e) {
+        function imageLoaded() {
             cntLoaded++;
-            if (cntLoaded === 4) {
+            if (cntLoaded === imageUrls.length) {
                 main.init();
             }
         }
@@ -69,22 +83,19 @@ class Main {
             Main.images[src] = img;
         }
 
-        loadImage("2_bubble2.png");
-        loadImage("bubble.png");
-        loadImage("bubble-psd94380.png");
-        loadImage("Bubble-3-psd90405.png");
-        loadImage("stock_real_bubble_png_by_e_dina-d4uifi8.png");
-        loadImage("Love_is_in_the_air.jpg");
+        for (var i = 0, l = imageUrls.length; i < l; i++) {
+            loadImage(imageUrls[i]);
+        }
     }
 
     init() {
-        var planet1 = new Planet(100, 800, 200, Main.images["2_bubble2.png"]);
+        var planet1 = new Planet(100, 800, 200, Main.images["Bubble-3-psd90405.png"]);
         var planet2 = new Planet(200, 400, 400, Main.images["Bubble-3-psd90405.png"]);
         var planet3 = new Planet(150, 900, 500, Main.images["bubble-psd94380.png"]);
-        var planet4 = new Planet(50, 300, 200, Main.images["stock_real_bubble_png_by_e_dina-d4uifi8.png"]);
+        var planet4 = new Planet(50, 200, 200, Main.images["bubble.png"]);
         new Person(25, -1.7, planet1, Main.images["bubble.png"]);
 
-        this.update(0);
+        requestAnimationFrame(this.update.bind(this));
     }
 }
 
@@ -93,11 +104,10 @@ document.addEventListener('touchmove', function (e) {
     e.preventDefault();
 });
 
-var Signal = window["signals"].Signal;
-
 var c = <HTMLCanvasElement>document.getElementById("canvas");
-c.width = window["innerWidth"];
-c.height = window["innerHeight"];
+var retinaSize = window["devicePixelRatio"] || 1;
+c.width = window["innerWidth"]*retinaSize;
+c.height = window["innerHeight"]*retinaSize;
 
 var main = new Main(c.getContext("2d"), <Window>window);
 main.load();

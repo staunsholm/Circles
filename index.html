@@ -7,16 +7,21 @@
 
     <meta content='True' name='HandheldFriendly' />
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
         body {
             margin: 0;
-            background: #000;
+            background-color: #000;
             color: #fff;
             overflow: hidden;
+        }
+
+        canvas {
+            background-color: #000;
+            width: 100%;
+            height: 100%;
         }
 
         #console {
@@ -27,9 +32,34 @@
             height: 10%;
             background-color: rgba(0,0,0,.5);
             padding: 5px;
-            font-family: consolas;
+            font-family: monospace;
         }
     </style>
+
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57x57-precomposed.png">
+
+    <!-- iPhone SPLASHSCREEN-->
+    <link href="img/apple-touch-startup-image-320x460.png" media="(device-width: 320px)" rel="apple-touch-startup-image">
+    <!-- iPhone (Retina) SPLASHSCREEN-->
+    <link href="img/apple-touch-startup-image-640x920.png" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- iPhone 5 SPLASHSCREEN -->
+    <link href="img/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- iPad (non-Retina) (Portrait) -->
+    <link href="img/apple-touch-startup-image-768x1004.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)" rel="apple-touch-startup-image" />
+    <!-- iPad (non-Retina) (Landscape) -->
+    <link href="img/apple-touch-startup-image-1024x748.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)" rel="apple-touch-startup-image" />
+    <!-- iPad (Retina) (Portrait) -->
+    <link href="img/apple-touch-startup-image-1536x2008.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) and (-webkit-min-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <!-- iPad (Retina) (Landscape) -->
+    <link href="img/apple-touch-startup-image-2048x1496.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) and (-webkit-min-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+
 </head>
 <body>
 
