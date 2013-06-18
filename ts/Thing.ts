@@ -18,14 +18,22 @@ class Thing implements IThing {
     texture:HTMLImageElement;
 
     update(ctx, dt) {
-        ctx.fillStyle = this.color;
+        /*ctx.fillStyle = this.color;
 
-/*        ctx.beginPath();
+        ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, 6.283185307179586, false);
         ctx.closePath();
         ctx.fill();*/
 
-        ctx.drawImage(this.texture, this.x - this.size, this.y - this.size, this.size*2, this.size*2);
+        // draw thing, if on screen
+        var scrx = this.x - Main.person.x + main.w/2;
+        var scry = this.y - Main.person.y + main.h/2;
+
+        if (scrx + this.size > 0 && scrx - this.size < main.w &&
+            scry + this.size > 0 && scry - this.size < main.h)
+        {
+            ctx.drawImage(this.texture, scrx - this.size, scry - this.size, this.size*2, this.size*2);
+        }
     }
 
     static things:Thing[] = [];

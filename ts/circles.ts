@@ -6,6 +6,18 @@
 class Main {
     w:number;
     h:number;
+
+    static person:Person;
+
+    static imageUrls:string[] = [
+        //'2_bubble2.png',
+        //'bubble.png',
+        'bubble-psd94380.png',
+        'Bubble-3-psd90405.png',
+        //'stock_real_bubble_png_by_e_dina-d4uifi8.png',
+        'Love_is_in_the_air.jpg'
+    ];
+
     static images:Object = {};
 
     ctx:CanvasRenderingContext2D;
@@ -56,21 +68,12 @@ class Main {
     }
 
     load() {
-        var imageUrls = [
-            '2_bubble2.png',
-            'bubble.png',
-            'bubble-psd94380.png',
-            'Bubble-3-psd90405.png',
-            'stock_real_bubble_png_by_e_dina-d4uifi8.png',
-            'Love_is_in_the_air.jpg'
-        ];
-
         var cntLoaded = 0;
         var main = this;
 
         function imageLoaded() {
             cntLoaded++;
-            if (cntLoaded === imageUrls.length) {
+            if (cntLoaded === Main.imageUrls.length) {
                 main.init();
             }
         }
@@ -83,32 +86,34 @@ class Main {
             Main.images[src] = img;
         }
 
-        for (var i = 0, l = imageUrls.length; i < l; i++) {
-            loadImage(imageUrls[i]);
+        for (var i = 0, l = Main.imageUrls.length; i < l; i++) {
+            loadImage(Main.imageUrls[i]);
         }
     }
 
     init() {
-        var planet1 = new Planet(100, 800, 200, Main.images["Bubble-3-psd90405.png"]);
-        var planet2 = new Planet(200, 400, 400, Main.images["Bubble-3-psd90405.png"]);
-        var planet3 = new Planet(150, 900, 500, Main.images["bubble-psd94380.png"]);
-        var planet4 = new Planet(50, 200, 200, Main.images["bubble.png"]);
-        new Person(25, -1.7, planet1, Main.images["bubble.png"]);
+        var imagesLength = Main.imageUrls.length - 1;
+        for (var i = 2; i < 2000; i++) {
+            var imgno = Math.random() * imagesLength | 0;
+            new Planet(Math.random() * 50 + 100, i * 200, Math.random() * this.h, Main.images[Main.imageUrls[imgno]]);
+        }
+
+        var planet1 = new Planet(100, 100, 200, Main.images[Main.imageUrls[0]]);
+        Main.person = new Person(25, -1.7, planet1, Main.images[Main.imageUrls[1]]);
 
         requestAnimationFrame(this.update.bind(this));
     }
 }
 
-//(function () {
+// prevent zoom/swipe in ios
 document.addEventListener('touchmove', function (e) {
     e.preventDefault();
 });
 
 var c = <HTMLCanvasElement>document.getElementById("canvas");
 var retinaSize = window["devicePixelRatio"] || 1;
-c.width = window["innerWidth"]*retinaSize;
-c.height = window["innerHeight"]*retinaSize;
+c.width = window["innerWidth"] * retinaSize;
+c.height = window["innerHeight"] * retinaSize;
 
 var main = new Main(c.getContext("2d"), <Window>window);
 main.load();
-//})();

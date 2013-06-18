@@ -68,7 +68,7 @@ class State {
             });
         }
 
-        // pause game when window looses focus
+        // pause game when window loses focus
         addEventListener('blur', function () {
             stop.dispatch();
             pause.dispatch();
