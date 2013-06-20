@@ -18,11 +18,11 @@ class Planet extends Thing {
     }
 
     update(ctx, dt) {
-        var time = Date.now() - State.pauseTime;
+        //var time = Date.now() - State.pauseTime;
 
-        this.x = this.origx + Math.cos(time / 2000000 * this.origx) * 20;
-        this.y = this.origy + Math.sin(time / 1000000 * this.origx) * 20;
-        this.size = Math.sin(time / 500000 * this.origy) * 10 + this.origsize;
+        //this.x = this.origx + Math.cos(time / 2000000 * this.origx) * 20;
+        //this.y = this.origy + Math.sin(time / 1000000 * this.origx) * 20;
+        //this.size = Math.sin(time / 500000 * this.origy) * 10 + this.origsize;
 
         super.update(ctx, dt);
     }

@@ -93,13 +93,13 @@ class Main {
 
     init() {
         var imagesLength = Main.imageUrls.length - 1;
-        for (var i = 2; i < 2000; i++) {
+        for (var i = 2; i < 3000; i++) {
             var imgno = Math.random() * imagesLength | 0;
             new Planet(Math.random() * 50 + 100, i * 200, Math.random() * this.h, Main.images[Main.imageUrls[imgno]]);
         }
 
-        var planet1 = new Planet(100, 100, 200, Main.images[Main.imageUrls[0]]);
-        Main.person = new Person(25, -1.7, planet1, Main.images[Main.imageUrls[1]]);
+        var planet1 = new Planet(100, 100, 100, Main.images[Main.imageUrls[0]]);
+        Main.person = new Person(25, 0, planet1, Main.images[Main.imageUrls[1]]);
 
         requestAnimationFrame(this.update.bind(this));
     }
