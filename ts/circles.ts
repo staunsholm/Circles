@@ -2,6 +2,7 @@
 ///<reference path='Planet.ts'/>
 ///<reference path='State.ts'/>
 ///<reference path='Thing.ts'/>
+///<reference path='Client.ts'/>
 
 class Main {
     w:number;
@@ -52,7 +53,7 @@ class Main {
 
             var ctx = this.ctx;
 
-            //        ctx.clearRect(0, 0, this.w, this.h);
+            //ctx.clearRect(0, 0, this.w, this.h);
             var x = this.w / 2;
             var y = this.h / 2;
             ctx.translate(x, y);
@@ -117,3 +118,5 @@ c.height = window["innerHeight"] * retinaSize;
 
 var main = new Main(c.getContext("2d"), <Window>window);
 main.load();
+
+var client = new Client();

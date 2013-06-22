@@ -1,30 +1,30 @@
 class State {
-    static public jump = new signals.Signal();
-    static public moveForward = new signals.Signal();
-    static public moveBackward = new signals.Signal();
-    static public stop = new signals.Signal();
-    static public pause = new signals.Signal();
-    static public play = new signals.Signal();
+    static jump = new signals.Signal();
+    static moveForward = new signals.Signal();
+    static moveBackward = new signals.Signal();
+    static stop = new signals.Signal();
+    static pause = new signals.Signal();
+    static play = new signals.Signal();
 
-    static public isPaused:bool = false;
-    static public pauseTime:number = 0;
+    static isPaused:bool = false;
+    static pauseTime:number = 0;
 
-    static public init() {
+    static init() {
         var tempPauseTime:number = 0;
 
         // control via keyboard
         addEventListener('keydown', function (e:KeyboardEvent) {
             if (e.keyCode === 32) {
                 e.preventDefault();
-                jump.dispatch(Date.now());
+                State.jump.dispatch(Date.now());
             }
             else if (e.keyCode === 37) {
                 e.preventDefault();
-                moveForward.dispatch();
+                State.moveForward.dispatch();
             }
             else if (e.keyCode === 39) {
                 e.preventDefault();
-                moveBackward.dispatch();
+                State.moveBackward.dispatch();
             }
         });
 
@@ -32,7 +32,7 @@ class State {
             e.preventDefault();
 
             if (e.keyCode !== 32) {
-                stop.dispatch();
+                State.stop.dispatch();
             }
         });
 
@@ -70,14 +70,14 @@ class State {
 
         // pause game when window loses focus
         addEventListener('blur', function () {
-            stop.dispatch();
-            pause.dispatch();
+            State.stop.dispatch();
+            State.pause.dispatch();
             State.isPaused = true;
             tempPauseTime = Date.now();
         });
 
         addEventListener('focus', function () {
-            play.dispatch();
+            State.play.dispatch();
             State.isPaused = false;
             if (tempPauseTime > 0) {
                 State.pauseTime += Date.now() - tempPauseTime;
