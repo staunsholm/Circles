@@ -1,43 +1,62 @@
 ///<reference path='../node/socket.io-client.d.ts'/>
 ///<reference path='State.ts'/>
+///<reference path='circles.ts'/>
 
 class Client {
-    socket:Socket;
+    static socket:Socket;
+    static artificialLatency:number = 100;
 
     constructor() {
-        this.socket = io.connect('http://localhost:8080');
-        this.socket.on('player', function (data) {
+        Client.socket = io.connect('127.0.0.1:8080');
+        Client.socket.on('player', function (data) {
             console.log(data);
         });
 
-        this.socket.on('jump', function () {
-            console.timeEnd('jump');
+        Client.socket.on('ping', function (state) {
+            setTimeout(function() {
+                Client.socket.emit('pong', state);
+            }, Client.artificialLatency);
         });
 
-        State.jump.add(this.jump.bind(this));
-        State.moveForward.add(this.moveForward.bind(this));
-        State.moveBackward.add(this.moveBackward.bind(this));
-        State.stop.add(this.stop.bind(this));
+        Client.socket.on('state', function (state) {
+            console.timeEnd('latency');
+
+            if (Main.person.position !== state.position) {
+//                console.log("position off by: ", Main.person.position - state.position);
+            }
+            if (Main.person.jumpInfo.startTime !== state.jump) {
+//                console.log("jump off by: ", Main.person.jumpInfo.startTime - state.jump);
+            }
+        });
+
+        State.preJump.add(this.jump.bind(this));
+        State.preMoveForward.add(this.moveForward.bind(this));
+        State.preMoveBackward.add(this.moveBackward.bind(this));
+        State.preStop.add(this.stop.bind(this));
     }
 
     jump() {
-        console.time('jump');
-        this.socket.emit('jump');
+        console.time('latency');
+        Client.socket.emit('jump');
+        setTimeout(State.jump.dispatch, Client.artificialLatency);
     }
 
     moveForward() {
-        console.time('moveForward');
-        this.socket.emit('moveForward');
+        console.time('latency');
+        Client.socket.emit('moveForward');
+        setTimeout(State.moveForward.dispatch, Client.artificialLatency);
     }
 
     moveBackward() {
-        console.time('moveBackward');
-        this.socket.emit('moveBackward');
+        console.time('latency');
+        Client.socket.emit('moveBackward');
+        setTimeout(State.moveBackward.dispatch, Client.artificialLatency);
     }
 
     stop() {
-        console.time('stop');
-        this.socket.emit('stop');
+        console.time('latency');
+        Client.socket.emit('stop');
+        setTimeout(State.stop.dispatch, Client.artificialLatency);
     }
 }
 

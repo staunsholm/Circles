@@ -1,8 +1,13 @@
 class State {
+    static preJump = new signals.Signal();
     static jump = new signals.Signal();
+    static preMoveForward = new signals.Signal();
     static moveForward = new signals.Signal();
+    static preMoveBackward = new signals.Signal();
     static moveBackward = new signals.Signal();
+    static preStop = new signals.Signal();
     static stop = new signals.Signal();
+
     static pause = new signals.Signal();
     static play = new signals.Signal();
 
@@ -16,15 +21,15 @@ class State {
         addEventListener('keydown', function (e:KeyboardEvent) {
             if (e.keyCode === 32) {
                 e.preventDefault();
-                State.jump.dispatch(Date.now());
+                State.preJump.dispatch();
             }
             else if (e.keyCode === 37) {
                 e.preventDefault();
-                State.moveForward.dispatch();
+                State.preMoveForward.dispatch();
             }
             else if (e.keyCode === 39) {
                 e.preventDefault();
-                State.moveBackward.dispatch();
+                State.preMoveBackward.dispatch();
             }
         });
 
@@ -32,7 +37,7 @@ class State {
             e.preventDefault();
 
             if (e.keyCode !== 32) {
-                State.stop.dispatch();
+                State.preStop.dispatch();
             }
         });
 
